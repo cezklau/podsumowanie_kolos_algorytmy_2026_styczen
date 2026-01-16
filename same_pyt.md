@@ -63,3 +63,12 @@
 8. Jak działa wstawianie węzłów w drzewie?
 9. Jak można przechodzić po drzewie? Wymień trzy typy przechodzenia:
 10. Jak usuwać node'y w drzewie?
+
+## Sortowanie
+
+1. Jak działa sortowanie przez wstawianie (ang. Insertion-sort)
+2. Jak działa sortowanie przez scalanie i jakiej metody używa?
+3. Jak działa QuickSort?
+4. Jak można opisać złożoność wykonania sortowania przez wstawianie, scalanie i quick sort?
+5. Daj algorytmy sortowania przez wstawianie, scalanie i quick sort w kolejności od najszybszego do najwolniejszego.
+7. Podaj stabilność algorytmów sortowania przez wstawianie, scalanie i quick sort.
