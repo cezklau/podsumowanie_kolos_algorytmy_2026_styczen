@@ -62,7 +62,4 @@
 7. Co jest trudniejsze, usuwanie czy dodawanie węzłów do drzewa?
 8. Jak działa wstawianie węzłów w drzewie?
 9. Jak można przechodzić po drzewie? Wymień trzy typy przechodzenia:
-    - inorder
-    - pre-order
-    - post-order
 10. Jak usuwać node'y w drzewie?
