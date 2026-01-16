@@ -512,3 +512,225 @@ def postorderTreeWalk(x):
 Ogólnie weźcie tutaj sprawdźcie te algorytmy bo nie skumacie inaczej
 https://moodle.ue.poznan.pl/pluginfile.php/1402660/mod_resource/content/1/07_bst.pdf
 ---
+
+## Sortowanie
+
+1. Jak działa sortowanie przez wstawianie (ang. Insertion-sort)
+
+Lecimy po wszystkich elementach tablicy, ale pierwszego nie analizujemy. Porównujemy, czy dany element jest mniejszy od elementu przed nim. Jeżeli tak to zamieniamy je miejscami.
+Kilka razy iterujemy (czyli lecimy po elementach tabicy), aż tablica będzie posortowana.
+
+```
+[1, 5, 6, 3, 2]
+```
+Porównujemy 5 i 1. 1 jest mniejsze to nic nie zmieniamy
+```
+[1, 5, 6, 3, 2]
+```
+Porównujemy 6 i 5. 5 jest mniejsze nic nie zmieniamy
+```
+[1,5,6,3,2]
+```
+Porównujemy 3 i 6. 6 jest większe. Zamieniamy 3 i 6 miejscami
+```
+[1,5,3,6,2]
+```
+Porównujemy 2 i6.  6 jest większe. Zamieniamy 2 i 6 miejscami
+```
+[1,5,3,2,6]
+```
+
+No i znowu lecimy
+1 i 5 nic nie zmianiamy
+```
+[1,5,3,2,6]
+```
+tutaj 3 i 5 podmieniamy
+```
+[1,3,5,2,6]
+```
+5 i 2 zamieniamy miejscami
+```
+[1,3,2,5,6]
+```
+Tu 5 i 6 nie zamieniamy bo 5 jest mniejsze od 6
+```
+[1,3,2,5,6]
+```
+1 jest mniejsze od 3 zostawiamy
+```
+[1,3,2,5,6]
+```
+3 jest większe od 2 zamieniamy miejscami
+```
+[1,2,3,5,6]
+```
+Potem reszte porównujemy, ale nie zmieniamy bo już posortowane
+
+
+A poniżej macie przykładową funkcję w javascript:
+
+```javascript
+const arrTest = [1,5,2,4,3];
+
+function sort(arr){
+    let sorted = false
+    
+    while(!sorted){
+        // to nam się przyda, aby sprawdzać, czy się coś zamieniło
+        let changed = false
+        for(let i = 1; i<arr.length; i++){
+            // sprawdzamy, czy elementy powinny się zamienić
+            if(arr[i] < arr[i-1]){
+                let temp = arr[i-1]
+                arr[i-1] = arr[i]
+                arr[i] = temp
+                
+                changed = true
+            }
+        }
+        // jak się nic nie zamieniło miejscami to ustawiamy sorted na true co przerywa petle while
+        if(!changed)
+            sorted = true
+    }
+    
+    // ciekawosta nawet bez zwracania arr, tablica którą daliśmy jako parametr będzie posortowana
+    // bo operujemy na elemencie w pamięci podręcznej. Czyli tablcia arrTest jest posortowana i arrTest2 to ta sama tablica
+    // w pamięci podręcznej co arrTest
+    return arr;
+}
+
+const arrTest2 = sort(arrTest)
+```
+
+2. Jak działa sortowanie przez scalanie i jakiej metody używa?
+
+Używa metody dziel i zwyciężaj.
+
+Dzielimy jedną tablice na dwie, te dwie na kolejne dwie aż zostaną nam tablice z jednym elementem. Potem lecimy po elementach jednej i drugiej tablicy i je porównujemy. Zawsze ten mniejszy dodajemy pierwszy do nowej posortowanej tablicy. Jak już dodamy element mniejszej tablicy to dodajemy porównujemy kolejny element tej mniejszej tablicy.
+
+```
+[5,1,6,3,2,4,8,7]
+[5,1,6,3] [2,4,8,7]
+[5,1] [6,3] [2,4] [8,7]
+[5][1] [6][3] [2][4] [8][7]
+```
+Warto zaznaczyć, że przy dzieleniu tak naprawde dzielimy do pojedyńczych elementów
+
+Teraz te mniejsze tablice porównujemy i zaczynamy sortować. Jak już mamy posortowaną tablicę to łączymy ją z kolejną.
+```
+[1,5] [3,6] [2,4] [7,8]
+```
+Teraz łączymy kolejne pary, ale to już opisze jako para. To samo co zaraz opisze stało się krok wcześniej, ale nie chciało mi się tego opisywać bo to za łatwy przykład.
+```
+// to jest pusta tablica do której trafiają posortowane liczby
+[]
+[1,5] [3,6]
+// tutaj porównujemy 1 i 3. 1 jest mniejsze
+[1]
+[5] [3,6]
+
+// Przechodzimy do 5 i porównujemy ją z 3. 3 jest mniejsze
+[1,3]
+[5] [6]
+
+// Przechodzimy do 6 i porównujemy ją z 5. 5 jest mniejsze
+
+[1,3,5]
+[] [6]
+
+// Wrzuciliśmy wszystkie elementy z pierwszej tablicy, więc dorzucamy na koniec resztę z drugiej
+[1,3,5,6]
+[] []
+```
+
+Analogiczne robimy z drugą tablicą aż otrzymamy:
+```
+[1,3,5,6] [2,4,7,8]
+```
+
+Tutaj robimy to samo, czyli porównujemy pierwszy element z pierwszej tablicy z pierwszym z drugiej. Jak dodamy do nowej tablicy element danej tablicy to przechodzimy do kolejnego elementu tej tablicy.
+
+### Kod
+
+```python
+
+// funkcja pomocnicza która operuje na podzielonym elemencie
+def merge(left, right):
+    A = []
+    i,j = 0,0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            A.append(left[i])
+            i += 1
+        else:
+            A.append(right[j])
+            j += 1
+    
+    A += left[i:]
+    A += right[j:]
+    
+    return A
+    
+def mergesort(A):
+    if len(A) > 1:
+        q = len(A) // 2
+        left = mergesort(A[:q])
+        right = mergesort(A[q:])
+        return merge(left,right)
+    return A
+
+```
+
+3. Jak działa QuickSort?
+
+Bierzemy ostatni element i sprawdzamy ile jest po lewo od niego większych elementów. Przesuwamy ten element, aby po lewo miał element mniejszy a po prawo wszystkie elementy były większe.
+Brawo utworzyłeś dwie tablice które oddziela pierwszy przesunięty element. Teraz robisz to samo z tymi mniejszymi tablicami kumasz?
+
+```
+[2, 1, 6, 5, 3]
+```
+Tutaj przesuwamy 3 między 1 a 6
+```
+[2, 1, 3, 6, 5]
+```
+Następnie przesuwamy 1 przed 2
+```
+[1,2,3,6,5]
+```
+2 nie ma żadnego mniejszego elementu po lewo.
+Następnie przesuwamy 5 przed 6
+```
+[1,2,3,5,6]
+```
+6 nie ma mniejszego elementu po lewo
+
+Posortowane!
+
+4. Jak można opisać złożoność wykonania sortowania przez wstawianie, scalanie i quick sort?
+
+- Sortowanie przez wstawianie - O(n^2)
+- Sortowanie przez scalanie - O(n log n)
+- QuickSort - O(n log n), ale może być w najgorszym przypadku O(n^2)
+
+5. Daj algorytmy sortowania przez wstawianie, scalanie i quick sort w kolejności od najszybszego do najwolniejszego.
+
+QuickSort, Scalanie, Wstawianie
+
+Ale też może być
+
+Scalanie, QuickSort = Wstawianie
+
+Ze złymi danymi wejściowymi QuickSort jest tak szybki jak Wstawianie. Niby złożoność czasowa QuickSort jest taka jak scalania, ale jednak jest szybszy.
+
+6. Co to znaczy, że algorytm jest niestabilny?
+
+Chodzi o to, że jak mamy dwa elementy o wartości np. 5. To te elementy przy stabilnym algorytmie pierwszy element z wartością 5 będzie dalej pierwszy.
+Przy niestabilnym, te elementy o tej samej wartośći mogą zmienić kolejność.
+
+7. Podaj stabilność algorytmów sortowania przez wstawianie, scalanie i quick sort.
+
+Wstawianie - stabilny
+scalanie - stabilny
+quick sort - niestabilny
