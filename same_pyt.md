@@ -72,3 +72,12 @@
 4. Jak można opisać złożoność wykonania sortowania przez wstawianie, scalanie i quick sort?
 5. Daj algorytmy sortowania przez wstawianie, scalanie i quick sort w kolejności od najszybszego do najwolniejszego.
 7. Podaj stabilność algorytmów sortowania przez wstawianie, scalanie i quick sort.
+
+## Podstawowe algorytmy na grafach
+
+1. Jak działa przeszukiwanie grafu wszerz? BFS
+2. Jak działa przeszukanie grafu w głąb? DFS
+3. BFS, czy DFS jest przeważnie najkrótsza ścieżką?
+5. Jaka struktura danych jest używa w BFS, a jaką w DFS?
+6. Co to sortowanie topologiczne?
+
