@@ -734,3 +734,65 @@ Przy niestabilnym, te elementy o tej samej wartośći mogą zmienić kolejność
 Wstawianie - stabilny
 scalanie - stabilny
 quick sort - niestabilny
+
+## Podstawowe algorytmy na grafach
+
+1. Jak działa przeszukiwanie grafu wszerz? BFS
+
+Sprawdza wiersz po wierszu każdą część grafu.
+
+  A
+  |
+B---C
+|   |
+D   E
+
+Kolejność:
+A, B, C, D, E
+
+2. Jak działa przeszukanie grafu w głąb? DFS
+
+Przeszukuje graf od początku do końca gałęzi, gałąź po gałęzi.
+
+  A
+  |
+B---C
+|   |
+D   E
+
+Kolejność:
+A, B, D, C, E
+
+3. BFS, czy DFS jest przeważnie najkrótsza ścieżką?
+
+BFS
+
+4. Co ma mniejsze zużycie pamięci? BFS, czy DFS?
+
+DFS
+
+5. Jaka struktura danych jest używa w BFS, a jaką w DFS?
+
+BFS - kolejka FIFO
+DFS - stos LIFO, lub rekurencja
+
+6. Co to sortowanie topologiczne?
+
+Jest to sortowanie grafu gdzie masz wierzchołki i ich zależności czyli.
+
+A, B, C, D
+
+I zależności
+A -> B
+A -> C
+C -> D
+
+Po sortowaniu masz:
+
+  A
+  |
+B---C
+    |
+    D
+
+
